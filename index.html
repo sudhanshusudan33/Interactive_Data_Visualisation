@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart Animation with Anime.js</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="main">
+      <h1 class="el">Data Visualization</h1>
+      <select name="" id="" class="select">
+        <option value="bar" class="option">Bar</option>
+        <option value="pie">Pie</option>
+        <option value="line">Line</option>
+        <option value="radar">Radar</option>
+      </select>
+      <div class="graphDiv" style="width: 700px; height: 400px;border-radius: 0.5rem;">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      let select = document.querySelector(".select");
+      // console.log(select.value)
+      let graph = "bar";
+      let myChart;
+      function run() {
+        console.log(graph);
+        const ctx = document.getElementById("myChart").getContext("2d");
+        if (myChart) {
+          myChart.destroy();
+        }
+        myChart = new Chart(ctx, {
+          type: `${graph}`,
+          data: {
+            labels: ["January", "February", "March", "April", "May"],
+            datasets: [
+              {
+                label: "Monthly Sales Data",
+                data: [63, 59, 80, 81, 56],
+                backgroundColor: ["red", "yellow", "green", "pink", "blue"],
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+            animation: {
+              duration: 5000,
+              easing: "easeInOut",
+            },
+          },
+        });
+      }
+      select.addEventListener("change", () => {
+        graph = select.value;
+        console.log(graph);
+        run();
+      });
+      run();
+      anime({
+        targets: ".el",
+        translateX: 250,
+        scale: 0.4,
+        rotate: "1.2turn",
+        // backgroundColor: "#FFF",
+        duration: 2000,
+        easing: "easeInOutQuad",
+        loop: true,
+        direction: "alternate",
+      });
+    </script>
+  </body>
+</html>
